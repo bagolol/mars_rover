@@ -1,4 +1,4 @@
-class Direction
+module Direction
 	def north dir
 		dir == 'R' ? 'E' : 'W'
 	end
