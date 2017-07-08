@@ -1,24 +1,39 @@
 class Grid
 
-  attr_reader :size
-  def initialize size
-    @size = size
+  attr_reader :bounds
+  def initialize bounds
+    @bounds = bounds
   end
 
-  def is_within?
-    return false
+  def are_inside? coord
+    check_bounds = ->(el){ el[0].between?(0, el[1]) }
+    result = [coord, bounds].transpose.map &check_bounds
+    result.uniq.length > 1 ? false : result.uniq[0]
   end
 
-  def return_offset cardinal
-    case cardinal
+  def calculate_position face, coord
+    new_coords = nil
+    case face
     when 'E'
-      [1,0]
+      new_coords = update_coordinates coord, [1,0]
     when 'W'
-      [-1, 0]
+      new_coords = update_coordinates coord, [-1,0]
     when 'N'
-      [0, 1]
+      new_coords = update_coordinates coord, [0,1]
     when 'S'
-      [0,-1]
+      new_coords = update_coordinates coord, [0,-1]
     end
+    are_inside?(new_coords) ? new_coords : raise_error
+  end
+
+  private
+
+  def raise_error
+    error_message = 'this position is not inside the grid'
+    raise StandardError, error_message
+  end
+
+  def update_coordinates old, new
+    [old, new].transpose.map {|x| x.reduce(:+)}
   end
 end
