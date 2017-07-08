@@ -1,17 +1,17 @@
 module Direction
-	def north dir
+	def N dir
 		dir == 'R' ? 'E' : 'W'
 	end
 
-	def south dir
+	def S dir
 		dir == 'R' ? 'W' : 'E'
 	end
 
-	def west dir
+	def W dir
 		dir == 'R' ? 'N' : 'S'
 	end
 
-	def east dir
+	def E dir
 		dir == 'R' ? 'S' : 'N'
 	end
 end

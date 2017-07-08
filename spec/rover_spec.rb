@@ -1,6 +1,11 @@
-require "spec_helper"
-require "rover"
-require "grid"
+require 'spec_helper'
+require 'rover'
+require 'grid'
+require 'helpers'
+
+RSpec.configure do |c|
+  c.include Helpers
+end
 
 describe Rover do
   before(:each) do
@@ -14,10 +19,11 @@ describe Rover do
     end
 
     it 'has an initial direction' do
-      expect(@rover.dir).to eq 'N'
+      expect(@rover.direction).to eq 'N'
     end
-    it 'has a grid to move on' do
-      expect(@rover.grid.class).to eq Grid
+    it 'knows its position and direction' do
+      position = @rover.return_position
+      expect(position).to eq '1 1 N'
     end
 
   end
@@ -27,30 +33,114 @@ describe Rover do
     end
 
     it 'can move south' do
-			@rover.turn_left
-			@rover.turn_left
+      @rover.turn_left
+      @rover.turn_left
       expect(@rover.move).to eq [1,0]
     end
-		
+
     it 'can move west' do
-			@rover.turn_left
+      @rover.turn_left
       expect(@rover.move).to eq [0,1]
     end
-		
+
     it 'can move east' do
-			@rover.turn_right
+      @rover.turn_right
       expect(@rover.move).to eq [2,1]
     end
-
   end
 
-  it 'can turn left' do
-    expect(@rover.turn_left).to eq 'W'
+  context 'when facing north' do
+    it 'can turn left and face west' do
+      @rover.turn_left
+      expect(@rover.direction).to eq 'W'
+    end
+
+    it 'can turn right and face east' do
+      @rover.turn_right
+      expect(@rover.direction).to eq 'E'
+    end
   end
 
-  it 'can turn right' do
-    expect(@rover.turn_right).to eq 'E'
+  context 'when facing south' do
+    before(:each) do
+      @rover = create_rover('S')
+    end
+    it 'can turn left and face east' do
+      @rover.turn_left
+      expect(@rover.direction).to eq 'E'
+    end
+
+    it 'can turn right and face west' do
+      @rover.turn_right
+      expect(@rover.direction).to eq 'W'
+    end
   end
+
+  context 'when facing east' do
+    before(:each) do
+      @rover = create_rover('E')
+    end
+    it 'can turn left and face north' do
+      @rover.turn_left
+      expect(@rover.direction).to eq 'N'
+    end
+
+    it 'can turn right and face south' do
+      @rover.turn_right
+      expect(@rover.direction).to eq 'S'
+    end
+  end
+
+  context 'when facing west' do
+    before(:each) do
+      @rover = create_rover('W')
+    end
+    it 'can turn left and face south' do
+      @rover.turn_left
+      expect(@rover.direction).to eq 'S'
+    end
+
+    it 'can turn right and face north' do
+      @rover.turn_right
+      expect(@rover.direction).to eq 'N'
+    end
+  end
+
+  context 'when given complex instructions' do
+    before(:each) do
+      @grid = Grid.new([5,5])
+    end
+
+    it 'moves according to LMLMLMLMM' do
+      rover = Rover.new(1,2,'N', @grid)
+      rover.turn_left
+      rover.move
+      rover.turn_left
+      rover.move
+      rover.turn_left
+      rover.move
+      rover.turn_left
+      rover.move
+      rover.move
+      expect(rover.return_position).to eq '1 3 N'
+    end
+
+    it 'moves according to MMRMMRMRRM' do
+      rover = Rover.new(3,3, 'E', @grid)
+      rover.move
+      rover.move
+      rover.turn_right
+      rover.move
+      rover.move
+      rover.turn_right
+      rover.move
+      rover.turn_right
+      rover.turn_right
+      rover.move
+      expect(rover.return_position).to eq '5 1 E'
+    end
+  end
+
 end
 
 

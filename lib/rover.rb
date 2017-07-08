@@ -2,37 +2,40 @@ require 'direction'
 
 class Rover
   include Direction
-  attr_reader :x, :y, :dir, :grid
-  @@points = Hash['N', 'north','S','south','W', 'west','E', 'east']
+  attr_reader :x, :y, :direction
   def initialize (x, y, dir, grid)
     @x = x
     @y = y
-    @dir = dir
+    @direction = dir
     @grid = grid
   end
-  
+
   def move
-    offset = grid.return_offset @dir 
-    add_offset offset
+    offset = @grid.return_offset @direction
+    @x, @y = update_coordinates offset
   end
 
-  def turn_left 
-    direction = @@points[@dir]
-    @dir = self.send direction, 'L'
+  def turn_left
+    new_direction = self.send @direction, 'L'
+		@direction = new_direction
   end
 
   def turn_right
-    direction = @@points[@dir]
-    @dir = self.send direction, 'R'
+    new_direction = self.send @direction, 'R'
+		@direction = new_direction
   end
 
-  private
+	def return_position
+		"#{@x} #{@y} #{direction}"
+	end
 
-  def calculate_offset 
-    grid.return_offset @dir
+	private
+
+  def calculate_offset
+    @grid.return_offset @direction
   end
 
-  def add_offset offset
+  def update_coordinates offset
     [[@x,@y], offset].transpose.map {|x| x.reduce(:+)}
   end
 end
