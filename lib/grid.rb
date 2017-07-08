@@ -15,13 +15,13 @@ class Grid
     new_coords = nil
     case face
     when 'E'
-      new_coords = update_coordinates coord, [1,0]
+      new_coords = update_coordinates(coord, [1,0])
     when 'W'
-      new_coords = update_coordinates coord, [-1,0]
+      new_coords = update_coordinates(coord, [-1,0])
     when 'N'
-      new_coords = update_coordinates coord, [0,1]
+      new_coords = update_coordinates(coord, [0,1])
     when 'S'
-      new_coords = update_coordinates coord, [0,-1]
+      new_coords = update_coordinates(coord, [0,-1])
     end
     are_inside?(new_coords) ? new_coords : raise_error
   end

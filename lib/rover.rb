@@ -1,4 +1,4 @@
-require 'direction'
+require_relative 'direction'
 
 class Rover
   include Direction
