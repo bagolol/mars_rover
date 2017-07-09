@@ -3,7 +3,7 @@ require './lib/mars_rover_parser'
 require './lib/grid'
 require './lib/rover'
 
-parser = MarsRoverParser.new('commands.txt')
+parser = MarsRoverParser.new('input.txt')
 lines = parser.read_file
 grid_size = parser.parse_grid_size lines[0]
 x1, y1, direction1 = parser.parse_position lines[1]
