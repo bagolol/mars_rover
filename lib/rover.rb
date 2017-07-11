@@ -3,7 +3,7 @@ require_relative 'direction'
 class Rover
   include Direction
 
-  attr_reader :x, :y, :direction
+  attr_reader :x, :y, :direction, :grid
 
   def initialize (x, y, dir, grid)
     @x = x
@@ -13,20 +13,20 @@ class Rover
   end
 
   def move
-    @x, @y = @grid.calculate_position(@direction, [@x, @y])
+    @x, @y = grid.calculate_position(direction, [x, y])
   end
 
   def turn_left
-    new_direction = self.send @direction, 'L'
+    new_direction = self.send direction, 'L'
     @direction = new_direction
   end
 
   def turn_right
-    new_direction = self.send @direction, 'R'
+    new_direction = self.send direction, 'R'
     @direction = new_direction
   end
 
   def return_position
-    "#{@x} #{@y} #{direction}"
+    "#{x} #{y} #{direction}"
   end
 end
