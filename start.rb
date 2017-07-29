@@ -17,4 +17,3 @@ rover1_commands.each { |c| rover1.send c }
 rover2_commands.each { |c| rover2.send c }
 puts rover1.return_position
 puts rover2.return_position
-

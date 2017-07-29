@@ -6,4 +6,3 @@ module Helpers
     Rover.new(1, 1, dir, grid)
   end
 end
-

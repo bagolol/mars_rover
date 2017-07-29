@@ -4,6 +4,6 @@ class Parser
   end
 
   def read_file
-    File.readlines(@file).map {|line| line}
+    File.readlines(@file).map { |line| line }
   end
 end

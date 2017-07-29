@@ -5,7 +5,7 @@ class Rover
 
   attr_reader :x, :y, :direction, :grid
 
-  def initialize (x, y, dir, grid)
+  def initialize(x, y, dir, grid)
     @x = x
     @y = y
     @direction = dir
@@ -17,12 +17,12 @@ class Rover
   end
 
   def turn_left
-    new_direction = self.send direction, 'L'
+    new_direction = send direction, 'L'
     @direction = new_direction
   end
 
   def turn_right
-    new_direction = self.send direction, 'R'
+    new_direction = send direction, 'R'
     @direction = new_direction
   end
 

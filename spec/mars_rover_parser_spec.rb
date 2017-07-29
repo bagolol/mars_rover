@@ -11,17 +11,17 @@ describe MarsRoverParser do
   context 'given a string' do
     it 'returns the grid_size as an array of integers' do
       grid_size = m_r_s.parse_grid_size '1 1'
-      expect(grid_size).to eq [1,1]
+      expect(grid_size).to eq [1, 1]
     end
 
     it 'returns an array of coordinates and a direction' do
       position = m_r_s.parse_position '1 1 N'
-      expect(position).to eq [1,1, 'N']
+      expect(position).to eq [1, 1, 'N']
     end
 
     it 'returns an array of executable commands' do
       commands = m_r_s.parse_commands 'LRM'
-      expect(commands).to eq ['turn_left', 'turn_right', 'move']
+      expect(commands).to eq %w[turn_left turn_right move]
     end
   end
 end
