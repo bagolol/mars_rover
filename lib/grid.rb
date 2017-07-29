@@ -21,6 +21,8 @@ class Grid
       new_coords = update_coordinates(coord, [0, 1])
     when 'S'
       new_coords = update_coordinates(coord, [0, -1])
+    else
+      unrecognized_direction
     end
     are_inside?(new_coords) ? new_coords : raise_error
   end
@@ -29,6 +31,11 @@ class Grid
 
   def raise_error
     error_message = 'this position is not inside the grid'
+    raise StandardError, error_message
+  end
+
+  def unrecognized_direction
+    error_message = 'this direction is invalid'
     raise StandardError, error_message
   end
 

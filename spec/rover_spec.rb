@@ -101,4 +101,25 @@ describe Rover do
       expect(rover.direction).to eq 'N'
     end
   end
+
+  context 'when receiving commands' do
+    it 'can process an empty commands\' array' do
+      old_position = '1 1 N'
+      new_position = rover.process_commands []
+      expect(new_position).to eq old_position
+    end
+
+    it 'can process an array with multiple commands' do
+      commands = ['M', 'L', 'M']
+      new_position = rover.process_commands commands
+      expect(new_position).to eq '0 2 W'
+    end
+
+    it 'will throw an error for unrecognized commands' do
+      commands = ['M', 'L', 'S']
+      error_message = 'this is not a valid command'
+      expect{rover.process_commands commands}
+        .to raise_error(StandardError, error_message)
+    end
+  end
 end

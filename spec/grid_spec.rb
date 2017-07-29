@@ -22,7 +22,17 @@ describe Grid do
     it 'raises an error with a message' do
       starting_point = [2, 2]
       error_message = 'this position is not inside the grid'
-      expect { grid.calculate_position('N', starting_point) }.to raise_error(StandardError, error_message)
+      expect { grid.calculate_position('N', starting_point) }
+        .to raise_error(StandardError, error_message)
+    end
+  end
+
+  context 'when facing an invalid direction' do
+    it 'raises an error with a message' do
+      starting_point = [2, 2]
+      error_message = 'this direction is invalid'
+      expect { grid.calculate_position('FOO', starting_point) }
+        .to raise_error(StandardError, error_message)
     end
   end
 

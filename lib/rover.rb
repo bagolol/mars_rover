@@ -12,6 +12,23 @@ class Rover
     @grid = grid
   end
 
+  def process_commands commands
+    return_position if commands.empty?
+    commands.each do |command|
+      case command
+      when 'M'
+        move
+      when 'L'
+        turn_left
+      when 'R'
+        turn_right
+      else
+       unrecognized_command
+      end
+    end
+      return_position
+  end
+
   def move
     @x, @y = @grid.calculate_position(direction, [x, y])
   end
@@ -28,5 +45,10 @@ class Rover
 
   def return_position
     "#{x} #{y} #{direction}"
+  end
+
+  def unrecognized_command
+    error_message = 'this is not a valid command'
+    raise StandardError, error_message
   end
 end
