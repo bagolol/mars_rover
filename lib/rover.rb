@@ -1,7 +1,6 @@
 require_relative 'direction'
 
 class Rover
-  include Direction
 
   attr_reader :x, :y, :direction
 
@@ -12,21 +11,21 @@ class Rover
     @grid = grid
   end
 
-  def process_commands commands
+  def process_commands(commands)
     return_position if commands.empty?
     commands.each do |command|
       case command
-      when 'M'
+      when 'move'
         move
-      when 'L'
+      when 'turn_left'
         turn_left
-      when 'R'
+      when 'turn_right'
         turn_right
       else
-       unrecognized_command
+        unrecognized_command
       end
     end
-      return_position
+    return_position
   end
 
   def move
@@ -34,13 +33,11 @@ class Rover
   end
 
   def turn_left
-    new_direction = send direction, 'L'
-    @direction = new_direction
+    @direction = Direction.calc_new(direction, 'L')
   end
 
   def turn_right
-    new_direction = send direction, 'R'
-    @direction = new_direction
+    @direction = Direction.calc_new(direction, 'R')
   end
 
   def return_position

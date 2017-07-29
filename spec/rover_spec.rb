@@ -110,15 +110,15 @@ describe Rover do
     end
 
     it 'can process an array with multiple commands' do
-      commands = ['M', 'L', 'M']
+      commands = %w[move turn_left move]
       new_position = rover.process_commands commands
       expect(new_position).to eq '0 2 W'
     end
 
     it 'will throw an error for unrecognized commands' do
-      commands = ['M', 'L', 'S']
+      commands = %w[move turn_left FOO]
       error_message = 'this is not a valid command'
-      expect{rover.process_commands commands}
+      expect { rover.process_commands commands }
         .to raise_error(StandardError, error_message)
     end
   end

@@ -1,7 +1,7 @@
 require_relative 'parser'
 
 class MarsRoverParser < Parser
-  MOVES = { 'L' => 'turn_left', 'R' => 'turn_right', 'M' => 'move' }
+  MOVES = { 'L' => 'turn_left', 'R' => 'turn_right', 'M' => 'move' }.freeze
 
   def parse_grid_size(line)
     line.split.map(&:to_i)

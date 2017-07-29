@@ -2,45 +2,49 @@ require 'spec_helper'
 require 'direction'
 
 describe Direction do
-  let(:extended_class) { Class.new { extend Direction } }
-
-  context 'when facing north' do
-    it 'returns west after turning left' do
-      expect(extended_class.N('L')).to eq 'W'
+  context 'can calculate the new facing direction' do
+    context 'when coming from north' do
+      it 'returns "E" when turning right' do
+        new_dir = Direction.calc_new('N', 'R')
+        expect(new_dir).to eq('E')
+      end
+      it 'returns "W" when turning left' do
+        new_dir = Direction.calc_new('N', 'L')
+        expect(new_dir).to eq('W')
+      end
     end
 
-    it 'returns east after turning right' do
-      expect(extended_class.N('R')).to eq 'E'
-    end
-  end
-
-  context 'when facing east' do
-    it 'returns north after turning left' do
-      expect(extended_class.E('L')).to eq 'N'
-    end
-
-    it 'returns south after turning right' do
-      expect(extended_class.E('R')).to eq 'S'
-    end
-  end
-
-  context 'when facing south' do
-    it 'returns east after turning left' do
-      expect(extended_class.S('L')).to eq 'E'
+    context 'when coming from east' do
+      it 'returns "S" when turning right' do
+        new_dir = Direction.calc_new('E', 'R')
+        expect(new_dir).to eq('S')
+      end
+      it 'returns "N" when turning left' do
+        new_dir = Direction.calc_new('E', 'L')
+        expect(new_dir).to eq('N')
+      end
     end
 
-    it 'returns west after turning right' do
-      expect(extended_class.S('R')).to eq 'W'
+    context 'when coming from south' do
+      it 'returns "W" when turning right' do
+        new_dir = Direction.calc_new('S', 'R')
+        expect(new_dir).to eq('W')
+      end
+      it 'returns "E" when turning left' do
+        new_dir = Direction.calc_new('S', 'L')
+        expect(new_dir).to eq('E')
+      end
     end
-  end
 
-  context 'when facing west' do
-    it 'returns south after turning left' do
-      expect(extended_class.W('L')).to eq 'S'
-    end
-
-    it 'returns north after turning right' do
-      expect(extended_class.W('R')).to eq 'N'
+    context 'when coming from west' do
+      it 'returns "N" when turning right' do
+        new_dir = Direction.calc_new('W', 'R')
+        expect(new_dir).to eq('N')
+      end
+      it 'returns "S" when turning left' do
+        new_dir = Direction.calc_new('W', 'L')
+        expect(new_dir).to eq('S')
+      end
     end
   end
 end
