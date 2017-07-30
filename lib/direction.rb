@@ -1,15 +1,18 @@
+# this module contains methods to
+# update the direction expressed
+# in cardinal points
 module Direction
-  def self.calc_new(dir, to_side)
-    invalid_side_error if invalid_side?(to_side)
+  def self.calc_new(dir, side)
+    invalid_side_error if invalid_side?(side)
     case dir
     when 'N'
-      from_north to_side
+      from_north(side)
     when 'E'
-      from_east to_side
+      from_east(side)
     when 'S'
-      from_south to_side
+      from_south(side)
     when 'W'
-      from_west to_side
+      from_west(side)
     else
       raise 'not a valid direction'
     end
