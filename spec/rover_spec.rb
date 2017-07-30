@@ -24,83 +24,29 @@ describe Rover do
     end
 
     it 'knows its position and direction' do
-      position = rover.return_position
+      position = rover.process_commands([])
       expect(position).to eq '1 1 N'
     end
   end
   context 'when moving from position 1,1 on the grid' do
     it 'can move north' do
-      expect(rover.move).to eq [1, 2]
+      commands = ['move']
+      expect(rover.process_commands(commands)).to eq '1 2 N'
     end
 
     it 'can move east' do
-      rover.turn_right
-      expect(rover.move).to eq [2, 1]
+      commands = ['turn_right', 'move']
+      expect(rover.process_commands(commands)).to eq '2 1 E'
     end
 
     it 'can move south' do
-      rover.turn_left
-      rover.turn_left
-      expect(rover.move).to eq [1, 0]
+      commands = ['turn_left', 'turn_left', 'move']
+      expect(rover.process_commands(commands)).to eq '1 0 S'
     end
 
     it 'can move west' do
-      rover.turn_left
-      expect(rover.move).to eq [0, 1]
-    end
-  end
-
-  context 'when facing north' do
-    it 'can turn left and face west' do
-      rover.turn_left
-      expect(rover.direction).to eq 'W'
-    end
-
-    it 'can turn right and face east' do
-      rover.turn_right
-      expect(rover.direction).to eq 'E'
-    end
-  end
-
-  context 'when facing east' do
-    let(:rover) { create_rover('E') }
-
-    it 'can turn left and face north' do
-      rover.turn_left
-      expect(rover.direction).to eq 'N'
-    end
-
-    it 'can turn right and face south' do
-      rover.turn_right
-      expect(rover.direction).to eq 'S'
-    end
-  end
-
-  context 'when facing south' do
-    let(:rover) { create_rover('S') }
-
-    it 'can turn left and face east' do
-      rover.turn_left
-      expect(rover.direction).to eq 'E'
-    end
-
-    it 'can turn right and face west' do
-      rover.turn_right
-      expect(rover.direction).to eq 'W'
-    end
-  end
-
-  context 'when facing west' do
-    let(:rover) { create_rover('W') }
-
-    it 'can turn left and face south' do
-      rover.turn_left
-      expect(rover.direction).to eq 'S'
-    end
-
-    it 'can turn right and face north' do
-      rover.turn_right
-      expect(rover.direction).to eq 'N'
+      commands = ['turn_left', 'move']
+      expect(rover.process_commands(commands)).to eq '0 1 W'
     end
   end
 

@@ -16,11 +16,11 @@ class Rover
     commands.each do |command|
       case command
       when 'move'
-        move
+        @x, @y = move
       when 'turn_left'
-        turn_left
+        @direction = turn_left
       when 'turn_right'
-        turn_right
+        @direction = turn_right
       else
         unrecognized_command
       end
@@ -28,16 +28,18 @@ class Rover
     return_position
   end
 
+  private
+
   def move
-    @x, @y = @grid.calculate_position(direction, [@x, @y])
+    @grid.calculate_position(direction, [@x, @y])
   end
 
   def turn_left
-    @direction = Direction.calc_new(direction, 'L')
+    Direction.calc_new(direction, 'L')
   end
 
   def turn_right
-    @direction = Direction.calc_new(direction, 'R')
+    Direction.calc_new(direction, 'R')
   end
 
   def return_position
