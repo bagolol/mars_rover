@@ -9,14 +9,16 @@ end
 
 describe Rover do
   grid = Grid.new([5, 5])
-  subject(:rover) { Rover.new(1, 1, 'N', grid) }
+  subject(:rover) {
+    Rover.new({
+      :x => 1,
+      :y => 1,
+      :dir => 'N',
+      :grid => grid
+    })
+  }
 
   context 'when created' do
-    it 'has an initial position expressed with coordinates' do
-      expect(rover.x).to eq 1
-      expect(rover.y).to eq 1
-    end
-
     it 'has an initial direction' do
       expect(rover.direction).to eq 'N'
     end

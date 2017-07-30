@@ -27,6 +27,13 @@ describe Grid do
     end
   end
 
+  context 'when are invalid' do
+    it 'returns the starting position' do
+      coords = []
+      expect(grid.calculate_position('N', coords)).to eq []
+    end
+  end
+
   context 'when facing an invalid direction' do
     it 'raises an error with a message' do
       starting_point = [2, 2]

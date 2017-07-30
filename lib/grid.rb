@@ -5,12 +5,14 @@ class Grid
   end
 
   def are_inside?(coord)
-    check_bounds = ->(el) { el[0].between?(0, el[1]) }
-    result = [coord, bounds].transpose.map &check_bounds
+    result = [coord, bounds].transpose.map do |coords|
+      is_between?(coords)
+    end
     result.uniq.length > 1 ? false : result.uniq[0]
   end
 
   def calculate_position(face, coord)
+    return coord if coord.length < 2
     new_coords = nil
     case face
     when 'E'
@@ -32,6 +34,10 @@ class Grid
   def raise_error
     error_message = 'this position is not inside the grid'
     raise StandardError, error_message
+  end
+
+  def is_between? coords
+    coords[0].between?(0, coords[1])
   end
 
   def unrecognized_direction

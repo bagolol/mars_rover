@@ -2,13 +2,13 @@ require_relative 'direction'
 
 class Rover
 
-  attr_reader :x, :y, :direction
+  attr_reader :direction
 
-  def initialize(x, y, dir, grid)
-    @x = x
-    @y = y
-    @direction = dir
-    @grid = grid
+  def initialize(args)
+    @x = args[:x]
+    @y = args[:y]
+    @direction = args[:dir]
+    @grid = args[:grid]
   end
 
   def process_commands(commands)
@@ -29,7 +29,7 @@ class Rover
   end
 
   def move
-    @x, @y = @grid.calculate_position(direction, [x, y])
+    @x, @y = @grid.calculate_position(direction, [@x, @y])
   end
 
   def turn_left
@@ -41,7 +41,7 @@ class Rover
   end
 
   def return_position
-    "#{x} #{y} #{direction}"
+    "#{@x} #{@y} #{direction}"
   end
 
   def unrecognized_command
