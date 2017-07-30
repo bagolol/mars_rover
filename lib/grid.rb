@@ -16,35 +16,30 @@ class Grid
   def calculate_position(face, coord)
     return coord if coord.length < 2
     new_coords = update_coordinates(face, coord)
-    are_inside?(new_coords) ? new_coords : raise_error
+    are_inside?(new_coords) ? new_coords : invalid_position_err
   end
 
   private
 
   def are_inside?(coord)
     result = [coord, bounds].transpose.map do |coords|
-      between?(coords)
+      coords[0].between?(0, coords[1])
     end
     result.uniq.length > 1 ? false : result.uniq[0]
   end
 
-  def raise_error
-    error_message = 'this position is not inside the grid'
-    raise StandardError, error_message
-  end
-
-  def between?(coords)
-    coords[0].between?(0, coords[1])
+  def invalid_position_err
+    raise 'this position is not inside the grid'
   end
 
   def unrecognized_direction
-    error_message = 'this direction is invalid'
-    raise StandardError, error_message
+    raise 'this direction is invalid'
   end
 
   def update_coordinates(face, old_values)
     new_values = OFFSETS[face]
     unrecognized_direction if new_values.nil?
-    [old_values, new_values].transpose.map { |x| x.reduce(:+) }
+    [old_values, new_values].transpose
+                            .map { |x| x.reduce(:+) }
   end
 end
