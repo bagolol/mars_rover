@@ -2,43 +2,37 @@
 # update the direction expressed
 # in cardinal points
 module Direction
-  def self.calc_new(dir, side)
-    invalid_side_error if invalid_side?(side)
-    case dir
-    when 'N'
-      from_north(side)
-    when 'E'
-      from_east(side)
-    when 'S'
-      from_south(side)
-    when 'W'
-      from_west(side)
-    else
-      raise 'not a valid direction'
-    end
+  CARDINAL_POINTS = {
+    'N' => ['E', 'W'],
+    'E' => ['S', 'N'],
+    'S' => ['W', 'E'],
+    'W' => ['N', 'S']
+  }
+
+  def self.calc_new(cardinal, dir)
+    invalid_cardinal_error if invalid_cardinal?(cardinal)
+    invalid_dir_error if invalid_dir?(dir)
+    update_cardinals(dir, cardinal)
   end
 
-  def self.from_north(dir)
-    dir == 'R' ? 'E' : 'W'
+  def self.update_cardinals(dir, cardinal)
+    cardinals = CARDINAL_POINTS[cardinal]
+    dir == 'R' ? cardinals[0] : cardinals[1]
   end
 
-  def self.from_east(dir)
-    dir == 'R' ? 'S' : 'N'
+  def self.invalid_dir?(dir)
+    dir != 'R' && dir != 'L'
   end
 
-  def self.from_south(dir)
-    dir == 'R' ? 'W' : 'E'
+  def self.invalid_dir_error
+    raise 'not a valid direction'
   end
 
-  def self.from_west(dir)
-    dir == 'R' ? 'N' : 'S'
+  def self.invalid_cardinal?(cardinal)
+    !CARDINAL_POINTS[cardinal]
   end
 
-  def self.invalid_side?(side)
-    side != 'R' && side != 'L'
-  end
-
-  def self.invalid_side_error
-    raise 'not a valid side'
+  def self.invalid_cardinal_error
+    raise 'not a valid cardinal point'
   end
 end

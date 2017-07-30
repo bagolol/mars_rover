@@ -49,14 +49,14 @@ describe Direction do
   context 'when given an invalid direction' do
     it 'raises a "not valid direction" error' do
       error_message = 'not a valid direction'
-      expect { Direction.calc_new('FOO', 'R') }.to raise_error(error_message)
+      expect { Direction.calc_new('W', 'FOO') }.to raise_error(error_message)
     end
   end
 
-  context 'when given an invalid side' do
-    it 'raises a "not valid side" error' do
-      error_message = 'not a valid side'
-      expect { Direction.calc_new('W', 'FOO') }.to raise_error(error_message)
+  context 'when given an invalid cardinal point' do
+    it 'raises a "not valid cardinal point" error' do
+      error_message = 'not a valid cardinal point'
+      expect { Direction.calc_new('FOO', 'L') }.to raise_error(error_message)
     end
   end
 end
