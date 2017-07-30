@@ -1,3 +1,5 @@
+# Parser injests the input file
+# and returns the lines stored in an array
 class Parser
   def initialize(file)
     @file = file

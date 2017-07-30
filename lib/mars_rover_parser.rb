@@ -1,5 +1,6 @@
 require_relative 'parser'
-
+# MarsRoverParser reads the input
+# and parse it into digestable instrucions
 class MarsRoverParser < Parser
   MOVES = { 'L' => 'turn_left', 'R' => 'turn_right', 'M' => 'move' }.freeze
 
@@ -13,7 +14,8 @@ class MarsRoverParser < Parser
   end
 
   def parse_commands(line)
-    match_commands = ->(c) { MOVES[c] }
-    line.strip.split('').map &match_commands
+    line.strip.split('').map do |command|
+      MOVES[command]
+    end
   end
 end
