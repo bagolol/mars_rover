@@ -68,4 +68,18 @@ describe Rover do
         .to raise_error(StandardError, error_message)
     end
   end
+
+    context 'when moving to an occupied square' do
+      let(:rover2) do
+        Rover.new(x: 1,
+                  y: 1,
+                  dir: 'N',
+                  grid: grid)
+      end
+      it 'aborts the operation and remains still' do
+        rover2.process_commands(['move'])
+        new_position = rover.process_commands(['move'])
+        expect(new_position).to eq '1 1 N'
+      end
+    end
 end

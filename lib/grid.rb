@@ -11,21 +11,41 @@ class Grid
   attr_reader :bounds
   def initialize(bounds)
     @bounds = bounds
+    @occupied_spots = []
   end
 
-  def calculate_position(face, coord)
-    return coord if coord.length < 2
-    new_coords = update_coordinates(face, coord)
-    are_inside?(new_coords) ? new_coords : invalid_position_err
+  def calculate_position(face, coords)
+    return coords if coords.length < 2
+    new_coords = update_coordinates(face, coords)
+    valid_position?(coords, new_coords) ? new_coords : coords
   end
 
   private
+
+  def valid_position?(old_coords, new_coords)
+    are_inside?(new_coords) && free_square?(old_coords, new_coords)
+  end
 
   def are_inside?(coord)
     result = [coord, bounds].transpose.map do |coords|
       coords[0].between?(0, coords[1])
     end
-    result.uniq.length > 1 ? false : result.uniq[0]
+    result.uniq.length > 1 ? invalid_position_err : result.uniq[0]
+  end
+
+  def free_square?(old_coords, new_coords)
+    if !@occupied_spots.include?(new_coords)
+      store_coords(old_coords, new_coords)
+      true
+    else
+      false
+    end
+  end
+
+  def store_coords(old, new)
+    @occupied_spots << new if @occupied_spots.length == 0
+    @occupied_spots
+      .map!{ |c| c == new ? c : new }
   end
 
   def invalid_position_err
@@ -37,9 +57,9 @@ class Grid
   end
 
   def update_coordinates(face, old_values)
-    new_values = OFFSETS[face]
-    unrecognized_direction if new_values.nil?
-    [old_values, new_values].transpose
-                            .map { |x| x.reduce(:+) }
+    offsets = OFFSETS[face]
+    unrecognized_direction if !offsets
+    [old_values, offsets].transpose
+      .map { |x| x.reduce(:+) }
   end
 end
