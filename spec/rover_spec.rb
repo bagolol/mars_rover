@@ -9,14 +9,12 @@ end
 
 describe Rover do
   grid = Grid.new([5, 5])
-  subject(:rover) {
-    Rover.new({
-      :x => 1,
-      :y => 1,
-      :dir => 'N',
-      :grid => grid
-    })
-  }
+  subject(:rover) do
+    Rover.new(x: 1,
+              y: 1,
+              dir: 'N',
+              grid: grid)
+  end
 
   context 'when created' do
     it 'has an initial direction' do
@@ -29,23 +27,23 @@ describe Rover do
     end
   end
   context 'when moving from position 1,1 on the grid' do
-    it 'can move north' do
+    it 'can move north and return an updated position' do
       commands = ['move']
       expect(rover.process_commands(commands)).to eq '1 2 N'
     end
 
-    it 'can move east' do
-      commands = ['turn_right', 'move']
+    it 'can move east and return an updated position' do
+      commands = %w[turn_right move]
       expect(rover.process_commands(commands)).to eq '2 1 E'
     end
 
-    it 'can move south' do
-      commands = ['turn_left', 'turn_left', 'move']
+    it 'can move south and return an updated position' do
+      commands = %w[turn_left turn_left move]
       expect(rover.process_commands(commands)).to eq '1 0 S'
     end
 
-    it 'can move west' do
-      commands = ['turn_left', 'move']
+    it 'can move west and return an updated position' do
+      commands = %w[turn_left move]
       expect(rover.process_commands(commands)).to eq '0 1 W'
     end
   end

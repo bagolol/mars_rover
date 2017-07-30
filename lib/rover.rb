@@ -1,7 +1,7 @@
 require_relative 'direction'
-
+# the Rover can process the commands
+# move around the plateau and return its position
 class Rover
-
   attr_reader :direction
 
   def initialize(args)
