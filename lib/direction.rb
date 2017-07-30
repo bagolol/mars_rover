@@ -1,5 +1,6 @@
 module Direction
   def self.calc_new(dir, to_side)
+    invalid_side_error if invalid_side?(to_side)
     case dir
     when 'N'
       from_north to_side
@@ -28,5 +29,13 @@ module Direction
 
   def self.from_west(dir)
     dir == 'R' ? 'N' : 'S'
+  end
+
+  def self.invalid_side?(side)
+    side != 'R' && side != 'L'
+  end
+
+  def self.invalid_side_error
+    raise 'not a valid side'
   end
 end

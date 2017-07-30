@@ -46,5 +46,19 @@ describe Direction do
         expect(new_dir).to eq('S')
       end
     end
+
+    context 'when given an invalid direction' do
+      it 'raises a "not valid direction" error' do
+        error_message = 'not a valid direction'
+        expect{Direction.calc_new('FOO', 'R')}.to raise_error(error_message);
+      end
+    end
+
+    context 'when given an invalid side' do
+      it 'raises a "not valid side" error' do
+        error_message = 'not a valid side'
+        expect{Direction.calc_new('W', 'FOO')}.to raise_error(error_message);
+      end
+    end
   end
 end
