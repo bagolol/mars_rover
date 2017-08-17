@@ -1,39 +1,45 @@
+# the Grid calculates and returns
+# the new position when the rover moves on it
 class Grid
+  OFFSETS = {
+    'E' => [1, 0],
+    'W' => [-1, 0],
+    'N' => [0, 1],
+    'S' => [0, -1]
+  }.freeze
 
   attr_reader :bounds
-  def initialize bounds
+  def initialize(bounds)
     @bounds = bounds
   end
 
-  def are_inside? coord
-    check_bounds = ->(el){ el[0].between?(0, el[1]) }
-    result = [coord, bounds].transpose.map &check_bounds
-    result.uniq.length > 1 ? false : result.uniq[0]
-  end
-
-  def calculate_position face, coord
-    new_coords = nil
-    case face
-    when 'E'
-      new_coords = update_coordinates(coord, [1,0])
-    when 'W'
-      new_coords = update_coordinates(coord, [-1,0])
-    when 'N'
-      new_coords = update_coordinates(coord, [0,1])
-    when 'S'
-      new_coords = update_coordinates(coord, [0,-1])
-    end
-    are_inside?(new_coords) ? new_coords : raise_error
+  def calculate_position(face, coord)
+    return coord if coord.length < 2
+    new_coords = update_coordinates(face, coord)
+    are_inside?(new_coords) ? new_coords : invalid_position_err
   end
 
   private
 
-  def raise_error
-    error_message = 'this position is not inside the grid'
-    raise StandardError, error_message
+  def are_inside?(coord)
+    result = [coord, bounds].transpose.map do |coords|
+      coords[0].between?(0, coords[1])
+    end
+    result.uniq.length > 1 ? false : result.uniq[0]
   end
 
-  def update_coordinates old, new
-    [old, new].transpose.map {|x| x.reduce(:+)}
+  def invalid_position_err
+    raise 'this position is not inside the grid'
+  end
+
+  def unrecognized_direction
+    raise 'this direction is invalid'
+  end
+
+  def update_coordinates(face, old_values)
+    new_values = OFFSETS[face]
+    unrecognized_direction if new_values.nil?
+    [old_values, new_values].transpose
+                            .map { |x| x.reduce(:+) }
   end
 end

@@ -1,32 +1,53 @@
 require_relative 'direction'
-
+# the Rover can process the commands
+# move around the plateau and return its position
 class Rover
-  include Direction
+  attr_reader :direction
 
-  attr_reader :x, :y, :direction, :grid
-
-  def initialize (x, y, dir, grid)
-    @x = x
-    @y = y
-    @direction = dir
-    @grid = grid
+  def initialize(args)
+    @x = args[:x]
+    @y = args[:y]
+    @direction = args[:dir]
+    @grid = args[:grid]
   end
 
+  def process_commands(commands)
+    return_position if commands.empty?
+    commands.each do |command|
+      case command
+      when 'move'
+        @x, @y = move
+      when 'turn_left'
+        @direction = turn_left
+      when 'turn_right'
+        @direction = turn_right
+      else
+        unrecognized_command
+      end
+    end
+    return_position
+  end
+
+  private
+
   def move
-    @x, @y = grid.calculate_position(direction, [x, y])
+    @grid.calculate_position(direction, [@x, @y])
   end
 
   def turn_left
-    new_direction = self.send direction, 'L'
-    @direction = new_direction
+    Direction.calc_new(direction, 'L')
   end
 
   def turn_right
-    new_direction = self.send direction, 'R'
-    @direction = new_direction
+    Direction.calc_new(direction, 'R')
   end
 
   def return_position
-    "#{x} #{y} #{direction}"
+    "#{@x} #{@y} #{direction}"
+  end
+
+  def unrecognized_command
+    error_message = 'this is not a valid command'
+    raise StandardError, error_message
   end
 end
